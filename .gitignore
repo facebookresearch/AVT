@@ -1,0 +1,15 @@
+# General exluded files
+*.swp
+*.o
+__pycache__
+.DS_Store
+.ropeproject
+.nfs*
+.vscode
+*.egg-info/
+*.pyc
+*.mypy_cache
+
+# python notebook related
+*/.cph_*
+*.ipynb_checkpoints

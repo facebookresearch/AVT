@@ -1,0 +1,9 @@
+[submodule "external/epic-kitchens-100-annotations"]
+	path = external/epic-kitchens-100-annotations
+	url = git@github.com:epic-kitchens/epic-kitchens-100-annotations.git
+[submodule "external/rulstm"]
+	path = external/rulstm
+	url = git@github.com:fpv-iplab/rulstm.git
+[submodule "external/epic_annotations"]
+	path = external/epic_annotations
+	url = git@github.com:epic-kitchens/annotations.git

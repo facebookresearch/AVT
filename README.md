@@ -1,6 +1,15 @@
 
 # Anticipative Video Transformer
 
+<video style="width: 25em; height: 25em; margin: 10px" autoplay muted loop controls>
+    <source src="https://facebookresearch.github.io/AVT/assets/videos/6488.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+<video style="width: 25em; height: 25em; margin: 10px" autoplay muted loop controls>
+    <source src="https://facebookresearch.github.io/AVT/assets/videos/4855.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+
 <p><img src="https://rohitgirdhar.github.io/DetectAndTrack/assets/cup.png" width="30px" align="center" /> Ranked <b>first</b> in the Action Anticipation task of the <a href="https://epic-kitchens.github.io/2021#results">CVPR 2021 EPIC-Kitchens Challenge</a>! (entry: AVT-FB-UT)</p>
 
 [[project page](https://facebookresearch.github.io/AVT/)] [[paper](https://arxiv.org/abs/2106.02036)]
@@ -93,12 +102,13 @@ DATA
 If you use a different organization, you would need to edit the train/val
 dataset files, such as [`conf/dataset/epic_kitchens100/anticipation_train.yaml`](conf/dataset/epic_kitchens100/anticipation_train.yaml). The `root` property takes a list of
 folders where the videos can be found, and it will search through all of them
-in order for a given video.
+in order for a given video. Note that we resized the EPIC videos to
+256px height for faster processing; you can use [`sample_scripts/resize_epic_256px.sh`](sample_scripts/resize_epic_256px.sh) script for the same.
 
 ## Training and evaluating models
 
 The code uses `hydra 1.0` and `submitit` for configuration and launching jobs
-via SLURM. We provide a `launch.py` script that is wrapper around the
+via SLURM. We provide a `launch.py` script that is a wrapper around the
 training scripts and can run jobs locally or launch distributed jobs.
 
 ## Test/challenge submission

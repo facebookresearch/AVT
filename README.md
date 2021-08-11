@@ -1,15 +1,6 @@
 
 # Anticipative Video Transformer
 
-<video style="width: 25em; height: 25em; margin: 10px" autoplay muted loop controls>
-    <source src="https://facebookresearch.github.io/AVT/assets/videos/6488.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-</video>
-<video style="width: 25em; height: 25em; margin: 10px" autoplay muted loop controls>
-    <source src="https://facebookresearch.github.io/AVT/assets/videos/4855.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-</video>
-
 <p><img src="https://rohitgirdhar.github.io/DetectAndTrack/assets/cup.png" width="30px" align="center" /> Ranked <b>first</b> in the Action Anticipation task of the <a href="https://epic-kitchens.github.io/2021#results">CVPR 2021 EPIC-Kitchens Challenge</a>! (entry: AVT-FB-UT)</p>
 
 [[project page](https://facebookresearch.github.io/AVT/)] [[paper](https://arxiv.org/abs/2106.02036)]

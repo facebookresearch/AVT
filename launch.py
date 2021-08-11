@@ -1,4 +1,3 @@
-#!/private/home/rgirdhar/.conda/envs/vidcls2/bin/python
 """Launch script to run arguments stored in txt files."""
 import argparse
 import getpass
@@ -6,9 +5,6 @@ import subprocess
 import os
 import socket
 import glob
-import re
-import time
-import operator
 from multiprocessing import Process
 from omegaconf import OmegaConf
 import inquirer
@@ -20,7 +16,7 @@ BASE_RUN_DIR = ('/checkpoint/{}/Work/FB/2020/001_VideoSSL/VidCls/'
                 'Outputs/'.format(getpass.getuser()))
 PRIORITY_QNAME = 'prioritylab'
 # No spaces in the comment; somehow doesn't work with the spaces
-PRIORITY_COMMENT = 'ICCV rebuttal'
+PRIORITY_COMMENT = 'comment'
 
 
 def parse_args():
@@ -75,23 +71,6 @@ def parse_args():
                         action='store_true',
                         help='Run in priority queue')
     parser.add_argument('--dev', action='store_true', help='Run in dev queue')
-    parser.add_argument('-s',
-                        '--scavenge',
-                        action='store_true',
-                        help='Run in scavenge queue')
-    parser.add_argument(
-        '--kill_trained',
-        action='store_true',
-        help='Kill runs that already have a fully trained model')
-    parser.add_argument('--kill_duplicates',
-                        action='store_true',
-                        help='Kill duplicate runs')
-    parser.add_argument('--kill_all_but_params',
-                        type=str,
-                        default=None,
-                        help=('A comma sep list of config params that must be '
-                              'satisfied for all jobs that are not killed. Eg '
-                              '"train.n_fwd_times=10,fold_id=0" '))
     parser.add_argument('--cls',
                         action='store_true',
                         help='Gen classification file and run that')
@@ -159,19 +138,6 @@ def subselect_dict_keys_diff(run_id_param_dicts):
 
 
 def escape_str(input_str):
-    """Escape a string for running on bash.
-    Based on https://stackoverflow.com/a/18935765 Just needed it for the $ used
-        in variable interpolation.
-    TODO(rgirdhar): Do this in a robust way.. right now it assumes escaped or
-        not, and then escapes everything
-    """
-    # if '\$' in input_str:
-    #     return input_str  # Likely is already escaped
-    # escaped = input_str.translate(str.maketrans({
-    #     "$": r"\$",
-    # }))
-    # Just putting the string in single quotes seems to be able to handle $
-    # stuff too.
     return f"'{input_str}'"
 
 
@@ -182,21 +148,6 @@ def choose_single_run(clis, fpath, run_id):
         clis: List of clis from the txt file
         run_id: If known which model to run locally, the run_id of that sweep
     """
-    # Check if this has been run before, then we can pick the overrides from
-    # the .hydra folder. Else, will have to manually construct potential
-    # combinations that will be run by hydra
-    # TODO(rgirdhar): This needs to be improved.. we shouldn't just take the
-    # final overrides file.. since it could be corrupted by the later runs
-    # We should just use the override file to figure out the params that are
-    # different across the multirun, and use the params as passed in from the
-    # txt config file for everything else
-
-    # run_id_param_dicts = get_sweep_param_from_runs(fpath)
-    # if len(run_id_param_dicts) == 0:
-    # 7/29/2020: Now no longer reading the config from the saved file, and only
-    # using the following function to get the params from the file. This is
-    # because now I use the hydra function to get the sweep params, so it pretty
-    # much should give the exact config that would be run for each run number.
     run_id_param_dicts = get_sweep_param_from_combinations(clis)
 
     if len(run_id_param_dicts) == 1:
@@ -334,8 +285,6 @@ def construct_cmd(args):
         cli += (' +hydra.launcher.partition="{}"'
                 ' +hydra.launcher.comment="{}" ').format(
                     PRIORITY_QNAME, PRIORITY_COMMENT)
-    elif args.scavenge:
-        cli += ' +hydra.launcher.partition="scavenge" '
     elif not args.local and not args.debug:
         cli += ' +hydra.launcher.partition="learnlab" '
     if args.big_gpu:
@@ -355,155 +304,12 @@ def construct_cmd(args):
     return cli
 
 
-def _smart_kill_trained(args, agent_folder, slurm_master_ids):
-    # TODO(rgirdhar): This was copied from phyre code.. needs to be modified
-    # to work here
-    to_kill = set()
-    run_sweep_params = get_sweep_param_from_runs(args.cfg)
-    sweep_runs = [run_id for run_id, _ in run_sweep_params]
-    done_sweep_runs = []
-    for folder in sweep_runs:
-        if folder is None:
-            # This happens when this is the first run, so can't figure out
-            # run_ids. In this case, of course need to launch this job
-            continue
-        # The following should not happen if the run_id exists, but just
-        # doing to be safe
-        out_dir = f'{agent_folder}/{folder}'
-        if not os.path.exists(out_dir):
-            continue
-        # If the folder exists, and results is stored in, that means it is
-        # finished and does not need to be launched
-        res_file_name = 'results-vis.json' if args.vis else 'results.json'
-        if res_file_name in os.listdir(out_dir):
-            done_sweep_runs.append(folder)
-    to_kill.update([
-        f'{slurm_id}_{run_id}' for slurm_id in slurm_master_ids
-        for run_id in done_sweep_runs
-    ])
-    return to_kill
-
-
-def check_conf_satisfied(conf, conf_const):
-    """
-    Check if the config constraint is satisfied by this conf.
-    Args:
-        conf: An OmegaConf
-        conf_const: A string, with "A=B,C=D,..." format
-    Returns:
-        boolean: satisfied or not
-    """
-    if len(conf_const) == 0:
-        return True
-    for param_val in conf_const.split(','):
-        param, val = param_val.split('=')
-        # Get the value in the config
-        if isinstance(conf, dict):
-            # This is most likely a dict with override strings and corr values
-            conf_val = conf[param]
-        else:
-            # Could be OmegaConf, or sth else.. try to get the element
-            conf_val = operator.attrgetter(param)(conf)
-        if str(conf_val) != val:
-            return False
-    return True
-
-
-def _smart_kill_params(args, slurm_master_ids):
-    """
-    Kill all jobs except the ones that satisfy the params
-    """
-    # Only consider the job that was just submitted
-    last_slurm_master_id = sorted(slurm_master_ids, key=int)[-1]
-    run_sweep_params = get_sweep_param_from_runs(args.cfg)
-    runs_to_kill = [
-        run_id for run_id, conf in run_sweep_params
-        if (not check_conf_satisfied(conf, args.kill_all_but_params)
-            and run_id is not None)
-    ]
-    slurm_to_kill = set(
-        [f'{last_slurm_master_id}_{run_id}' for run_id in runs_to_kill])
-    return slurm_to_kill
-
-
-def _smart_kill_duplicates(slurm_master_ids):
-    to_kill = set()
-    queue = subprocess.check_output('squeue -u $USER', shell=True)
-    queue = str(queue).split('\\n')[1:]  #strip header
-    sweep_id_jobs = {}
-    single_job = re.compile(r'(\d+)_(\d+)')
-    job_array = re.compile(r'(\d+)_\[.*%\d+\]')
-    for job_info in queue:
-        single_job_info = single_job.findall(job_info)
-        job_array_info = job_array.findall(job_info)
-        if len(single_job_info) > 0:
-            master_id, sweep_id = single_job_info[0]
-            if master_id not in slurm_master_ids:
-                continue
-            sweep_id_jobs[sweep_id] = sweep_id_jobs.get(sweep_id,
-                                                        []) + [master_id]
-        elif len(job_array_info) > 0:
-            master_id = job_array_info[0]
-            if master_id not in slurm_master_ids:
-                continue
-            job_array_items = re.compile(r'(\[.*%\d+\])')
-            single = re.compile(r'[\[,](\d+)[,%]')
-            ranges = re.compile(r'(\d+)-(\d+)[,%]')
-
-            array_items = job_array_items.findall(job_info)[0]
-            for each in single.findall(array_items):
-                sweep_id_jobs[each] = sweep_id_jobs.get(each, []) + [master_id]
-            for min_id, max_id in ranges.findall(array_items):
-                for each in range(int(min_id), int(max_id) + 1):
-                    sweep_id_jobs[str(each)] = sweep_id_jobs.get(
-                        str(each), []) + [master_id]
-    # Keep oldest job per sweep, kill rest
-    sweep_id_jobs = {
-        k: [f'{each}_{k}' for each in sorted(v, key=int)[1:]]
-        for k, v in sweep_id_jobs.items()
-    }
-    for key in sweep_id_jobs:
-        to_kill.update(sweep_id_jobs[key])
-    return to_kill
-
-
-def _smart_kill(args):
-    time.sleep(20)  # Make sure jobs have launched
-    slurm_ids = set()
-    agent_folder = '{}/{}'.format(BASE_RUN_DIR,
-                                  args.cfg if args.cfg else 'default')
-    submitted_jobs = glob.glob(
-        os.path.join(agent_folder, '.slurm/*_submitted.pkl'))
-    slurm_master_ids = set(
-        os.path.basename(el).split('_')[0] for el in submitted_jobs)
-
-    # Kill runs for trained models
-    if args.kill_trained:
-        slurm_ids.update(
-            _smart_kill_trained(args, agent_folder, slurm_master_ids))
-
-    # Kill runs for duplicates
-    if args.kill_duplicates:
-        slurm_ids.update(_smart_kill_duplicates(slurm_master_ids))
-
-    # Kill runs that don't specify specific params
-    if args.kill_all_but_params:
-        slurm_ids.update(_smart_kill_params(args, slurm_master_ids))
-
-    # Kill jobs
-    print(f'Killing the following {len(slurm_ids)} jobs: {slurm_ids}')
-    subprocess.call('scancel {}'.format(' '.join(slurm_ids)), shell=True)
-
-
 def main():
     """Main func."""
     args = parse_args()
     # if args.cls:
     #     args = gen_cls_override_file(args)
     cmd = construct_cmd(args)
-    if args.kill_trained or args.kill_duplicates or args.kill_all_but_params:
-        proc = Process(target=_smart_kill, args=(args, ))
-        proc.start()
     print('>> Running "{}"'.format(cmd))
     subprocess.call(cmd, shell=True)
 

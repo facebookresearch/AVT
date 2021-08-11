@@ -1,0 +1,5 @@
+# @package _group_
+
+_target_: models.classifiers.MLP
+nlayers: 2
+bias: true

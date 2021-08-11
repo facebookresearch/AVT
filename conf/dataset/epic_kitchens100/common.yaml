@@ -1,0 +1,13 @@
+# @package _group_._name_
+
+version: 0.2
+# I manually removed the video/ directory in between by moving
+# videos out of the videos/ dir
+data_dir_extension: /checkpoint/rgirdhar/Work/FB/2020/001_VideoSSL/VidCls/Data/EpicKitchens100/videos_extension_ht256px
+# RULSTM feats dirs
+rulstm_feats_dir: /checkpoint/rgirdhar/Work/FB/2020/001_VideoSSL/VidCls/external/rulstm/RULSTM/ek100_data_full/
+annot_dir: ${cwd}/external/epic-kitchens-100-annotations/
+rulstm_annot_dir: ${cwd}/external/rulstm/RULSTM/data/ek100/
+label_type: action
+tau_a: 1.0
+tau_o: 2.5

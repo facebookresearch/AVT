@@ -1,0 +1,7 @@
+# @package _group_
+
+_target_: datasets.breakfast_50salads.read_abu_farha_annotations
+annots_dir: ${dataset.breakfast.common.annots_dir_abu_farha}
+bundle_entry_to_vname_fn:
+  _target_: datasets.breakfast_50salads.bundle_entry_to_video_fname_breakfast
+frame_rate: 15  # Since all videos in Breakfast are 15FPS

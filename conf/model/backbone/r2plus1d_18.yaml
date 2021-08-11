@@ -1,0 +1,5 @@
+# @package _group_
+_target_: torchvision.models.video.r2plus1d_18
+pretrained: false
+progress: False
+num_classes: null  # Will be set in the code based on dataset

@@ -1,0 +1,5 @@
+# @package _group_
+
+_target_: common.scheduler.CosineLR
+num_epochs: ${minus:${train.num_epochs},${opt.warmup.num_epochs}}
+eta_min: 0.0  # Min LR (default)

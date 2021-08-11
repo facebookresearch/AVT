@@ -1,0 +1,24 @@
+# @package _group_._name_
+
+_target_: datasets.howto100m.HowTo100M
+root: /datasets01_101/HowTo100M/022520/videos/
+# The downloaded videos have some that are missing.. so those are in this videos fpath
+videos_csv_fpath: /datasets01_101/HowTo100M/022520/metadata/HowTo100M_filtered.csv
+# captions_pkl_fpath: /datasets01_101/HowTo100M/022520/metadata/caption.pickle
+# Processed version of the above, using `python sample_scripts/preproc_howto_captions.py
+captions_fpath: /checkpoint/rgirdhar/Work/FB/2020/001_VideoSSL/VidCls/Data/HowTo100M/captions.ftr
+tasks_csv_fpath: /datasets01_101/HowTo100M/022520/metadata/task_ids.csv
+label_type: verb
+sample_strategy: last_clip
+keep_ratio: 1.0  # Amount of videos to keep
+conv_to_anticipate_fn_runtime:
+  _target_: datasets.base_video_dataset.convert_to_dense_anticipation_runtime
+process_df_before_read_fn:
+  _target_: datasets.base_video_dataset.process_df_for_dense_anticpation
+  obs_ratio: [0.2, 0.7]  # Randomly pick at training time
+  pred_steps: 20
+  fixed_duration: null
+  # By default will pick the fixed_duration value. Once
+  # https://github.com/facebookresearch/hydra/issues/826 is fixed,
+  # can do it directly here.
+  fixed_duration_obs: null

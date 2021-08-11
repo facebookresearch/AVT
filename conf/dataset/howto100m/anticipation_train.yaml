@@ -1,0 +1,17 @@
+# @package _group_._name_
+
+_target_: datasets.howto100m.HowTo100M
+root: /datasets01_101/HowTo100M/022520/videos/
+# The downloaded videos have some that are missing.. so those are in this videos fpath
+videos_csv_fpath: /datasets01_101/HowTo100M/022520/metadata/HowTo100M_filtered.csv
+# captions_pkl_fpath: /datasets01_101/HowTo100M/022520/metadata/caption.pickle
+# Processed version of the above, using `python sample_scripts/preproc_howto_captions.py
+captions_fpath: /checkpoint/rgirdhar/Work/FB/2020/001_VideoSSL/VidCls/Data/HowTo100M/captions.ftr
+tasks_csv_fpath: /datasets01_101/HowTo100M/022520/metadata/task_ids.csv
+label_type: verb
+sample_strategy: random_clip
+keep_ratio: 1.0  # Amount of videos to keep
+conv_to_anticipate_fn:
+  _target_: datasets.base_video_dataset.convert_to_anticipation
+  tau_a: 1.0
+  tau_o: 2.5

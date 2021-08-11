@@ -1,0 +1,21 @@
+# @package _group_._name_
+
+_target_: datasets.epic_kitchens.EPICKitchens
+version: ${dataset.epic_kitchens100.common.version}
+root:
+  - ${dataset.epic_kitchens.common.data_dir}/train  # the old one
+  # Need test too since some of epic-55 test was added to epic-100 train
+  - ${dataset.epic_kitchens.common.data_dir}/test  # the old one
+  - ${dataset.epic_kitchens100.common.data_dir_extension}
+annotation_path:
+  - ${dataset.epic_kitchens100.common.annot_dir}/EPIC_100_train.pkl
+  - ${dataset.epic_kitchens100.common.annot_dir}/EPIC_100_validation.pkl
+annotation_dir: ${dataset.epic_kitchens100.common.annot_dir}
+rulstm_annotation_dir: ${dataset.epic_kitchens100.common.rulstm_annot_dir}  # Needed during computing final outputs to get tail classes etc.
+label_type: ${dataset.epic_kitchens100.common.label_type}
+sample_strategy: "random_clip"
+action_labels_fpath: ${dataset.epic_kitchens100.common.rulstm_annot_dir}/actions.csv
+conv_to_anticipate_fn:
+  _target_: datasets.base_video_dataset.convert_to_anticipation
+  tau_a: ${dataset.epic_kitchens100.common.tau_a}
+  tau_o: ${dataset.epic_kitchens100.common.tau_o}

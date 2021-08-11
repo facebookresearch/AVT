@@ -1,0 +1,22 @@
+# @package _group_._name_
+
+_target_: datasets.breakfast_50salads.Breakfast50Salads
+which: 50Salads
+root: ${dataset.dundee50salads.common.videos_dir}
+splits_dir: ${dataset.dundee50salads.common.splits_dir}
+classes_fpath: ${dataset.dundee50salads.common.classes_fpath}
+is_train: true
+fold: ${dataset.dundee50salads.common.fold}
+sample_strategy: last_clip
+annot_reader_fn: ${dataset.dundee50salads.annot_reader_fn}
+conv_to_anticipate_fn:
+  _target_: datasets.base_video_dataset.convert_to_dense_anticipation
+process_df_before_read_fn:
+  _target_: datasets.base_video_dataset.process_df_for_dense_anticpation
+  obs_ratio: [0.2, 0.7]  # Randomly pick at training time
+  pred_steps: 20
+  fixed_duration: null
+  # By default will pick the fixed_duration value. Once
+  # https://github.com/facebookresearch/hydra/issues/826 is fixed,
+  # can do it directly here.
+  fixed_duration_obs: null

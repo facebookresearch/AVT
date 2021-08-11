@@ -1,0 +1,8 @@
+# @package _group_
+
+_target_: models.temporal_aggregation.RULSTMAggregation
+intermediate_featdim: ${model.intermediate_featdim}
+dropout: ${model.dropout}
+# The following may be important to set if using with pre-trained model that
+# was trained for diff number of unrollings
+num_pad_feats: 0

@@ -1,0 +1,4 @@
+# @package _group_
+
+_target_: func.train_eval_ops.BasicLossAccuracy
+balance_classes: false

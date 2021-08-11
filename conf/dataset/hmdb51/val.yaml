@@ -1,0 +1,12 @@
+# @package _group_._name_
+
+_target_: torchvision.datasets.HMDB51
+root: "/datasets01_101/hmdb51/112018/data"
+annotation_path: "/datasets01_101/hmdb51/112018/splits/"
+train: false
+fold: 1
+# Just using dataset_train variable interpolation, assuming fold is
+# same at train and eval. Ideally hydra would allow for relative variable
+# interpolations, since this hmdb/train may not *always* be used at training
+# time...
+_precomputed_metadata_file: "/checkpoint/rgirdhar/Work/FB/2020/001_VideoSSL/VidCls/Data/HMDB51/metadata_files/hmdb51_val_fold${dataset_eval.params.fold}.pth"

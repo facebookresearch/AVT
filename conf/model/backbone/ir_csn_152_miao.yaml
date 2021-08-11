@@ -1,0 +1,18 @@
+# @package _group_
+_target_: models.video_classification.ir_csn_152_miao
+num_classes: null  # Will be set in the code based on dataset
+devices: null
+backbone: "r3d-csn152"
+pretrained: null
+frozen_stages: 2
+gradient_cp: false  # Since we have enough GPU memory on FAIR cluster, don't need gradient checkpointing
+feat_dim: 2048
+modality: "rgb"
+decoder: "avgfc"  # Doesn't matter, we only use the encoder though
+decoder_fc_std: 0.01  # doesn't matter, no decoder used
+dropout_prob: 0.0  # doesn't matter, no decoder used
+label_smoothing: -1  # doesn't matter, no decoder used
+# Not in the original config at https://github.com/2020aptx4869lm/Forecasting-Human-Object-Interaction-in-FPV/blob/master/exp_configs/epic-kitchens/epic-kitchens-action_trainval_i3d_csn152_vae.json Made assumptions
+decoder_num_nodes: 1
+decoder_stride: 1
+cls_weights: null

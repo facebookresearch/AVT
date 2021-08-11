@@ -1,0 +1,6 @@
+# @package _group_
+
+_target_: datasets.breakfast_50salads.read_abu_farha_annotations
+annots_dir: ${dataset.dundee50salads.common.annots_dir_abu_farha}
+bundle_entry_to_vname_fn:
+  _target_: datasets.breakfast_50salads.bundle_entry_to_video_fname_50salads

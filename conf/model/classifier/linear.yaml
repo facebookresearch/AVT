@@ -1,0 +1,4 @@
+# @package _group_
+
+_target_: torch.nn.Linear
+bias: true

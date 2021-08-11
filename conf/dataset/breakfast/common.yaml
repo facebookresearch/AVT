@@ -1,0 +1,9 @@
+# @package _group_._name_
+
+data_dir: /checkpoint/rgirdhar/Work/FB/2020/001_VideoSSL/VidCls/Data/Breakfast/BreakfastII_15fps_qvga_sync/
+classes_fpath: ${cwd}/external/breakfast_50salad_anticipation_annotations/annotations/breakfast/mapping.txt
+splits_dir: ${cwd}/external/breakfast_50salad_anticipation_annotations/cvpr18_data/bf_splits/
+annots_dir_abu_farha: ${cwd}/external/breakfast_50salad_anticipation_annotations/annotations/breakfast/groundTruth/
+# from https://www.dropbox.com/s/a4donc18fn6nunx/breakfast_i3d.7z?dl=0
+sener_i3d_feats: /checkpoint/rgirdhar/Work/FB/2020/001_VideoSSL/VidCls/external/temporal_aggregate_representations_eccv20/breakfast_i3d/
+fold: 1

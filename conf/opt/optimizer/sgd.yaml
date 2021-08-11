@@ -1,0 +1,5 @@
+# @package _group_
+
+_target_: torch.optim.SGD
+momentum: 0.9
+nesterov: false

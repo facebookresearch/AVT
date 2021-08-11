@@ -1,0 +1,18 @@
+# @package _group_._name_
+
+_target_: torchvision.datasets.UCF101
+# Generated using gen_ucf_torchvision_fmt.sh.
+# Sym-linked from /dataset so should be good to read at scale
+# Must not have the "/" in the end
+# because of the way _select_fold in ucf101 is implemented (literally uses
+# len(root).. disregarding whether there is a "/" in the end or not)
+root: "/checkpoint/rgirdhar/Work/FB/2020/001_VideoSSL/VidCls/Data/UCF101/videos"
+annotation_path: "/datasets01_101/ucf101/112018/ucfTrainTestlist/"
+train: true
+fold: 1
+# Just using dataset_train variable interpolation, assuming fold is
+# same at train and eval. Ideally hydra would allow for relative variable
+# interpolations, since this ucf/train may not *always* be used at training
+# time...
+# https://github.com/facebookresearch/hydra/issues/826
+_precomputed_metadata_file: "/checkpoint/rgirdhar/Work/FB/2020/001_VideoSSL/VidCls/Data/UCF101/metadata_files/ucf101_train_fold${dataset_train.params.fold}.pth"

@@ -1,0 +1,5 @@
+# @package _group_
+
+_target_: datasets.breakfast_50salads.read_orig_50salads_annotations
+annots_dir: ${dataset.dundee50salads.common.annots_dir}
+timestamps_dir: ${dataset.dundee50salads.common.timestamps_dir}

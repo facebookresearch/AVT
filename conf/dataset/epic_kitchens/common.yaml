@@ -1,0 +1,10 @@
+# @package _group_._name_
+
+version: 0.1
+data_dir: /checkpoint/rgirdhar/Work/FB/2020/001_VideoSSL/VidCls/Data/EpicKitchens/videos_ht256px
+annot_dir: ${cwd}/external/epic_annotations/
+rulstm_annot_dir: ${cwd}/external/rulstm/RULSTM/data/ek55/
+rulstm_feats_dir: /checkpoint/rgirdhar/Work/FB/2020/001_VideoSSL/VidCls/external/rulstm/RULSTM/data_full/
+label_type: action
+tau_a: 1.0
+tau_o: 2.5

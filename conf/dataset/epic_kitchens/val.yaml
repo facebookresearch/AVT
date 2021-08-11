@@ -1,0 +1,11 @@
+# @package _group_._name_
+
+_target_: datasets.epic_kitchens.EPICKitchens
+root: ${dataset.epic_kitchens.common.data_dir}/train
+annotation_path:
+  - ${dataset.epic_kitchens.common.annot_dir}/EPIC_train_action_labels.pkl
+annotation_dir: ${dataset.epic_kitchens.common.annot_dir}
+label_type: ${dataset.epic_kitchens.common.label_type}
+sample_strategy: "center_clip"
+only_keep_persons: "26-31"
+action_labels_fpath: ${dataset.epic_kitchens.common.rulstm_annot_dir}/actions.csv

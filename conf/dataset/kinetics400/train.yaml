@@ -1,5 +1,0 @@
-# @package _group_._name_
-
-_target_: torchvision.datasets.Kinetics400
-root: "/datasets01_101/kinetics/070618/train_avi-480p"
-_precomputed_metadata_file: "/checkpoint/bkorbar/DATASET_TV/kinetics_train32frms_01_101.pth"

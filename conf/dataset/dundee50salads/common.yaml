@@ -1,6 +1,6 @@
 # @package _group_._name_
 
-data_dir: /checkpoint/rgirdhar/Work/FB/2020/001_VideoSSL/VidCls/Data/50Salads/
+data_dir: ${cwd}/DATA/videos/50Salads/
 splits_dir: ${cwd}/external/breakfast_50salad_anticipation_annotations/cvpr18_data/50s_splits/
 annots_dir: ${dataset.dundee50salads.common.data_dir}/activityAnnotations/
 videos_dir: ${dataset.dundee50salads.common.data_dir}/rgb/
@@ -8,5 +8,5 @@ timestamps_dir: ${dataset.dundee50salads.common.data_dir}/timestamps/
 classes_fpath: ${cwd}/external/breakfast_50salad_anticipation_annotations/annotations/50salads/mapping.txt
 annots_dir_abu_farha: ${cwd}/external/breakfast_50salad_anticipation_annotations/annotations/50salads/groundTruth/
 # from `wget -O 50s.7z https://www.dropbox.com/sh/has4uczrkp2rw93/AABPuqE_A42pXoDPxST4t172a?dl=0`
-sener_i3d_feats: /checkpoint/rgirdhar/Work/FB/2020/001_VideoSSL/VidCls/external/temporal_aggregate_representations_eccv20/50salads_i3d
+sener_i3d_feats: ${cwd}/DATA/external/temporal_aggregate_representations_eccv20/50salads_i3d
 fold: 1

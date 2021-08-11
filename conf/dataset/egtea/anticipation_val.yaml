@@ -3,7 +3,7 @@
 _target_: datasets.epic_kitchens.EPICKitchens
 version: ${dataset.egtea.common.version}
 root:
-  - /datasets01/EGTEA/101020/videos/
+  - ${cwd}/DATA/videos/EGTEA/101020/videos/
 annotation_path:
   - ${dataset.egtea.common.rulstm_annot_dir}/validation${dataset.egtea.common.split}.csv
 annotation_dir: ${dataset.egtea.common.rulstm_annot_dir}

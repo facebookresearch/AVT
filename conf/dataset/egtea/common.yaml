@@ -2,7 +2,7 @@
 
 version: -1
 # RULSTM feats dirs
-rulstm_feats_dir: /checkpoint/rgirdhar/Work/FB/2020/001_VideoSSL/VidCls/external/rulstm/RULSTM/egtea/
+rulstm_feats_dir: ${cwd}/DATA/external/rulstm/RULSTM/egtea/
 rulstm_annot_dir: ${cwd}/external/rulstm/RULSTM/data/egtea/
 label_type: action
 tau_a: 1.0

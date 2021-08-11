@@ -7,13 +7,6 @@ seed: 42
 # interpolation
 cwd: ${hydra:runtime.cwd}
 
-# For apex mixed precision training
-# O0 for FP32 training, O1 for mixed precision training.
-# For further detail,
-# see https://github.com/NVIDIA/apex/tree/master/examples/imagenet
-apex: false
-apex_opt_level: "O1"
-
 sync_bn: false
 
 test_only: false
@@ -163,12 +156,12 @@ defaults:
   # +dataseset_train2=hmdb51/train to the command line config.
   # Note that this only works with standard datasets, ConcatDataset can't
   # handle overly customized datasets as we use in EpicKitchens
-  - dataset@dataset_train: ucf101/train
+  - dataset@dataset_train: epic_kitchens100/anticipation_train
   # Any keys with the dataset_eval prefix, will all be evaluated on separately.
   # The postfix will be used to identify which dataset the results are on.
   # So, you can use > 1 evaluation datasets that way, by adding it in the
   # command line config, like +dataset_eval2=hmdb51/val
-  - dataset@dataset_eval: ucf101/val
+  - dataset@dataset_eval: epic_kitchens100/anticipation_val
   - data@data_train: default
   - data@data_eval: default
   # Load any common dataset files, that will be used to create other dataset
@@ -177,9 +170,6 @@ defaults:
   - dataset/epic_kitchens100/common
   - dataset/dundee50salads/common
   - dataset/dundee50salads/annot_reader_fn: orig
-  - dataset/breakfast/common
-  - dataset/breakfast/annot_reader_fn: orig
-  - dataset/oops/common
   - dataset/egtea/common
   # Overrides
   - override hydra/launcher: submitit_slurm
@@ -188,7 +178,7 @@ defaults:
 
 hydra:
   job:
-    name: "vcls"
+    name: "AVT"
   launcher:
     # All params in https://github.com/facebookresearch/hydra/blob/master/plugins/hydra_submitit_launcher/hydra_plugins/hydra_submitit_launcher/config.py
     timeout_min: 2880
@@ -205,7 +195,7 @@ hydra:
     # constraint: ${hydra.launcher.gpu_type} # Any, or could say [volta|pascal]
     # comment: ""
   run:
-    dir: /checkpoint/${env:USER}/Work/FB/2020/001_VideoSSL/VidCls/Outputs/${expt_name}
+    dir: ./outputs/  # Specified in the launch script
   sweep:
     dir: ${hydra.run.dir}
     # Output sub directory for sweep runs.

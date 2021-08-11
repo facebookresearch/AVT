@@ -1,8 +1,0 @@
-# @package _group_._name_
-
-_target_: datasets.oops.Oops
-root: ${dataset.oops.common.vid_dir}/val
-splits_file: ${dataset.oops.common.annot_dir}/val_filtered.txt
-transition_times_json: ${dataset.oops.common.annot_dir}/transition_times.json
-keep_unlabeled: false
-sample_strategy: center_clip

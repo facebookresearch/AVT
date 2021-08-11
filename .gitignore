@@ -10,6 +10,9 @@ __pycache__
 *.pyc
 *.mypy_cache
 
+# Data directories
+DATA/*
+
 # python notebook related
 */.cph_*
 *.ipynb_checkpoints

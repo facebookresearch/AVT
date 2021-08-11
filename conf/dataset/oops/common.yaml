@@ -1,6 +1,0 @@
-# @package _group_._name_
-
-vid_dir: /checkpoint/rgirdhar/Work/FB/2020/001_VideoSSL/VidCls/Data/OOPS/oops_dataset/oops_video/
-annot_dir: /checkpoint/rgirdhar/Work/FB/2020/001_VideoSSL/VidCls/Data/OOPS/oops_dataset/annotations/
-tau_a: 1.5  # the default for OOPS
-tau_o: 1.0  # since these video clips/inputs are shorter

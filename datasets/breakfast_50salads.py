@@ -1,24 +1,4 @@
 """The Breakfast/50Salads dataset loader.
-Also obtained Fisher features used in Sener et al. ECCV'20 at these links
-Breakfast fisher
-https://www.dropbox.com/sh/att84gu8cmjk38a/AADXWb802lzvulGJ3wTUCr22a?dl=0
-
-Breakfast i3d
-https://www.dropbox.com/s/a4donc18fn6nunx/breakfast_i3d.7z?dl=0
-50Salads i3d (also 7z file)
-https://www.dropbox.com/sh/has4uczrkp2rw93/AABPuqE_A42pXoDPxST4t172a?dl=0
-
-50Salads
-https://www.dropbox.com/s/vlf8u3d1xqeu5ep/50Salads.7z?dl=0
-
-These are segmentation outputs from [1]
-[1] Abu Farha, Y., Richard, A., Gall, J.: When will you do
-what?-anticipating temporal occurrences of activities.
-You can find them here
-https://www.dropbox.com/s/r9iltp743yfav82/yazan_cvpr18.7z?dl=0
-
-You can find our segmentation results here (used on section E)
-https://www.dropbox.com/s/xug8jx0fzhg6org/ours_eccv20.7z?dl=0
 """
 
 from pathlib import Path
@@ -137,7 +117,7 @@ def read_orig_breakfast_annotations(videos: list, root: Path,
         video_fps = 15
         with open(Path(root) / annot_fname, 'r') as fin:
             lines = [el.strip() for el in fin.readlines()]
-            # Dec 16 2020: No longer removing SIL -- based on email conversation
+            # No longer removing SIL -- based on email conversation
             # with Fadime, they keep everything, and drop any action segments
             # they don't have any context for prediction; so the SIL from the
             # beginning will be removed anyway.

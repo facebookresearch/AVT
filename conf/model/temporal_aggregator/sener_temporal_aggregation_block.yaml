@@ -1,4 +1,0 @@
-# @package _group_
-
-_target_: models.temporal_aggregation.SenerTemporalAggregationBlock
-intermediate_featdim: ${model.intermediate_featdim}

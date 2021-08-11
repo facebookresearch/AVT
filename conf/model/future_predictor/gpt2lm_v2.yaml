@@ -1,3 +1,0 @@
-# @package _group_
-
-_target_: models.future_prediction.GPT2LM_v2

@@ -35,10 +35,6 @@ def parse_args():
                         '--debug',
                         action='store_true',
                         help='Run in debug mode: 1 GPU, when locally')
-    parser.add_argument('-v',
-                        '--vis',
-                        action='store_true',
-                        help='Generate visualizations when testing')
     parser.add_argument('-t',
                         '--test',
                         action='store_true',

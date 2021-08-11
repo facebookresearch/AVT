@@ -201,20 +201,6 @@ class Basic:
 
 
 class PredFutureFeat(Basic):
-    """
-    Earlier I was trying to run the DDP model multiple times for a current
-        and future videos and then back-proping. That seems like it was failing
-        because it would lead to some in-place updates of some parameters.
-        This fixes it.
-    Jul 14 2020: Figured what the above issue was due to. Doing multiple
-        forward passes was leading to the BatchNorm running mean/var params
-        being updated in place, and were not available for computing gradients
-        for other parameters. Was also able to repro in a CIFAR distributed
-        training setup, but not quite in a standalone setup. Perhaps this error
-        is related to https://github.com/pytorch/pytorch/issues/13402
-        Will need to dig deeper later, for now this common feature extraction
-        should be fine.
-    """
     def __init__(self,
                  *args,
                  reg_criterion: TargetConf = None,

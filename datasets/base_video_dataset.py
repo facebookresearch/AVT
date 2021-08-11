@@ -93,16 +93,7 @@ def convert_to_anticipation(df: pd.DataFrame,
                 df.loc[:, f'future_{i}_start'] + tau_o)
         else:
             raise ValueError(f'Seems out of bound {future_clip_ratio}')
-    # RULSTM (in EpicKitchens) drops certain clips that do not have enough
-    # stuff before to set up anticipation (8 data points). So drop them too.
-    # However, I think there is a bug in RULSTM, here:
-    # https://github.com/fpv-iplab/rulstm/blob/96e38666fad7feafebbeeae94952dba24771e512/RULSTM/dataset.py#L164
-    # They are copying over the last visible frame, but that frame might be
-    # within the 1s to the actual action -- since they consider predicting
-    # even from just 0.25s before. So the equivalent setup here would be to
-    # allow anything that ends before 0.25s to the action, and let them see the
-    # frame. However, the correct way would be to only drop things that have no
-    # frames visible.
+
     # first frame seconds
     f1_sec = 1 / RULSTM_TSN_FPS
     old_df = df
@@ -113,6 +104,16 @@ def convert_to_anticipation(df: pd.DataFrame,
         # All frames should be in
         df = df[df.start >= f1_sec]
     elif drop_style == 'rulstm':
+        # RULSTM (in EpicKitchens) drops certain clips that do not have enough
+        # stuff before to set up anticipation (8 data points). So drop them too.
+        # However, in RULSTM
+        # https://github.com/fpv-iplab/rulstm/blob/96e38666fad7feafebbeeae94952dba24771e512/RULSTM/dataset.py#L164
+        # They are copying over the last visible frame, but that frame might be
+        # within the 1s to the actual action -- since they consider predicting
+        # even from just 0.25s before. So the equivalent setup here would be to
+        # allow anything that ends before 0.25s to the action, and let them see the
+        # frame. However, the correct way would be to only drop things that have no
+        # frames visible.
         # Anything that would be able to see at least 1 frame 0.25s before the
         # clip. Keep those.
         # A point before orig_start,
@@ -1050,17 +1051,6 @@ class BaseVideoDataset(torch.utils.data.Dataset):
         eff_idx = int(round(idx * ((new_total_len - 1) / (old_total_len - 1))))
         assert eff_idx <= new_total_len
         cls_idx = eff_idx // share_per_class
-        # Ideally do something like this, to get the nearest data point
-        # balanced by the classes
-        # offset_cls_idx_ratio = (eff_idx % share_per_class) / share_per_class
-        # new_idx = cls_firstelt[cls_idx] + int(
-        #     round(offset_cls_idx_ratio * cls_counts[cls_idx]))
-        # For now just simply pick any random data point for that class
-        # This is not ideal ofc.. in expectation it will pick each clip
-        # but no guarantee.. ideally should use something that will map to the
-        # actual provided idx and makes sure each clips gets seen.
-        # This could have been done simply by randomly sampling a class and
-        # then sampling a video from it.
         new_idx = self.rng.integers(cls_firstelt[cls_idx], cls_cumsum[cls_idx])
 
         # Make sure it doesn't go over

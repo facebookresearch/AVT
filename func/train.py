@@ -227,10 +227,6 @@ def train_one_epoch(
         # Use the total loss to backprop etc
         loss = torch.sum(torch.stack(losses_wtd))
         if torch.isnan(loss):
-            # Need to do this... somehow otherwise it can give weird errors
-            # like P143316383
-            # https://fb.workplace.com/groups/1405155842844877/permalink/4010340495659719
-            # Use expts/259_dbg.txt to run with -g and it used to crash.
             raise ValueError('The loss is NaN!')
 
         optimizer.zero_grad()
@@ -252,8 +248,6 @@ def train_one_epoch(
         optimizer.step()
 
         batch_size = data_loader.batch_size
-        # TODO(rgirdhar): Move away from this metric_logger, not really useful
-        # since TB can do running averages, adds unnecessary overheads
         metric_logger.update(loss=loss.item(),
                              lr=optimizer.param_groups[0]['lr'])
         metric_logger.meters['clips/s'].update(batch_size /
@@ -473,24 +467,11 @@ def evaluate(
     main_dataset_key = ''
     main_metric = final_accuracies[main_dataset_key][
         data_loaders[main_dataset_key].dataset.primary_metric]
-    # This was the old way of doing this
-    # main_metric = np.mean([
-    #     all_metric_loggers[''].meters[key].global_avg
-    #     for key in all_metric_loggers[''].meters.keys()
-    # ])
     return main_metric
 
 
 def initial_setup(cfg, logger):
     torchvision.set_video_backend(cfg.pytorch.video_backend)
-    if cfg.apex:
-        if sys.version_info < (3, 0):
-            raise RuntimeError(
-                "Apex currently only supports Python 3. Aborting.")
-        if amp is None:
-            raise RuntimeError("Failed to import apex. Please install apex "
-                               "from https://www.github.com/nvidia/apex "
-                               "to enable mixed-precision training.")
 
     if cfg.data_parallel:
         dist_info = {}
@@ -759,12 +740,6 @@ def main(cfg):
             else:
                 raise ValueError(f'Incorrect formatting {module_ckpt}')
             init_model(model_to_init, ckpt_path, ckpt_modules_to_keep, logger)
-
-    # Remove this, since loading is now simplified
-    # if cfg.train.finetune:
-    #     assert (cfg.train.init_from_model is not None or
-    #             model.params.pretrained)
-    #     model.fc = nn.Linear(model.fc.in_features, len(dataset.classes))
 
     model.to(device)
 

@@ -100,7 +100,8 @@ in order for a given video. Note that we resized the EPIC videos to
 
 The code uses `hydra 1.0` and `submitit` for configuration and launching jobs
 via SLURM. We provide a `launch.py` script that is a wrapper around the
-training scripts and can run jobs locally or launch distributed jobs.
+training scripts and can run jobs locally or launch distributed jobs. The
+configuration for a specific experiment is defined by a TXT file
 
 ## Test/challenge submission
 

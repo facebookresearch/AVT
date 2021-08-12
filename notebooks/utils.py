@@ -299,11 +299,18 @@ def compute_accuracy(predictions, labels, classes=None):
     top_1 = compute_topk(predictions, labels, 1, classes=classes_to_keep)
     top_5 = compute_topk(predictions, labels, 5, classes=classes_to_keep)
     try:
-        ar5, ar5_per_cls = topk_recall(predictions,
+        ar_outputs = topk_recall(predictions,
                                        labels,
                                        k=5,
                                        classes=classes_to_keep)
-        ar5_per_cls = {k: v * 100.0 for k, v in ar5_per_cls.items()}
+        if isinstance(ar_outputs, tuple):
+            # This happens if RULSTM code is modified to return per-class AR
+            # values
+            ar5, ar5_per_cls = ar_outputs
+            ar5_per_cls = {k: v * 100.0 for k, v in ar5_per_cls.items()}
+        else:
+            ar5 = ar_outputs
+            ar5_per_cls = {c: float('nan') for c in classes_to_keep}
     except ZeroDivisionError:
         # This happens when it can't find any true classes, the code
         # can't deal with that

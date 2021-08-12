@@ -1,6 +1,6 @@
 train.train_one_epoch_fn.loss_wts.gpt2=1.0
 train.train_one_epoch_fn.loss_wts.past_cls_action=1.0
-train.init_from_model=[[backbone.model, DATA/pretrained/TIMM/jx_vit_base_patch16_224_in21k-e5005f0a.pth]]
+train.init_from_model=[[backbone.model, ${cwd}/DATA/pretrained/TIMM/jx_vit_base_patch16_224_in21k-e5005f0a.pth]]
 
 train.batch_size=3
 eval.batch_size=3  # Larger were crashing with a weird CUDNN non contiguous error..

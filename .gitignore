@@ -11,7 +11,8 @@ __pycache__
 *.mypy_cache
 
 # Data directories
-DATA/*
+DATA
+OUTPUTS
 
 # python notebook related
 */.cph_*

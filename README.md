@@ -112,7 +112,16 @@ in order for a given video. Note that we resized the EPIC videos to
 The code uses `hydra 1.0` and `submitit` for configuration and launching jobs
 via SLURM. We provide a `launch.py` script that is a wrapper around the
 training scripts and can run jobs locally or launch distributed jobs. The
-configuration for a specific experiment is defined by a TXT file
+configuration for a specific experiment is defined by a TXT file.
+
+
+By default, the launcher will launch the job to a SLURM cluster. However,
+you can run it locally using one of the following options:
+
+1. `-g` to run locally in debug mode with 1 GPU and 0 workers. Will allow you to place
+`pdb.set_trace()` to debug interactively
+2. `-l` to run locally using as many GPUs on the local machine
+
 
 ## Test/challenge submission
 

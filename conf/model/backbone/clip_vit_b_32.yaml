@@ -1,4 +1,0 @@
-# @package _group_
-_target_: models.video_classification.CLIPModel
-model_type: ViT-B/32
-model_path: /checkpoint/rgirdhar/Work/FB/2020/001_VideoSSL/VidCls/Pretrained/CLIP/ViT-B-32.pt

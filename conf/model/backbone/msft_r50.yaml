@@ -1,6 +1,0 @@
-# @package _group_
-# Based on https://pypi.org/project/microsoftvision/
-_target_: models.video_classification.FrameLevelModel
-model:
-  _target_: microsoftvision.models.resnet50
-  pretrained: false

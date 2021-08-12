@@ -1,4 +1,0 @@
-# @package _group_
-_target_: models.video_classification.ir_csn_152
-pretrained: False
-num_classes: null  # Will be set in the code based on dataset

@@ -1,5 +1,0 @@
-# @package _group_
-_target_: vmz.models.ip_csn_152
-pretraining: ""
-use_pool1: true
-num_classes: null  # Will be set in the code based on dataset

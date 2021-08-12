@@ -52,7 +52,6 @@ train:
     save_freq_min: 60  # At least save every 60 mins
     # Whether or not to save the intermediate models
     save_intermediates: false
-    apex: ${apex}
     loss_wts:
       cls_action: 1.0
       cls_verb: 1.0

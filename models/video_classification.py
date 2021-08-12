@@ -16,8 +16,6 @@ from torchvision.models.video.resnet import (
 )
 from pretrainedmodels import bninception
 from external import forecasting_hoi_models
-from mmaction.models import build_model as mmaction_build_model
-import clip
 import timm
 
 __all__ = [
@@ -241,13 +239,6 @@ def process_each_frame(model, video, *args, **kwargs):
                                1, 2).unsqueeze(-1).unsqueeze(-1)
 
 
-def mmaction_model(num_classes=400, **kwargs):
-    del num_classes
-    # Convert to dict
-    cfg = OmegaConf.to_container(OmegaConf.create(kwargs), resolve=True)
-    return mmaction_build_model(cfg)
-
-
 class FrameLevelModel(nn.Module):
     """Runs a frame level model on all the frames."""
     def __init__(self, num_classes: int, model: nn.Module = None):
@@ -265,25 +256,6 @@ class BNInceptionVideo(FrameLevelModel):
         self.model = bninception(*args, **kwargs)
         self.model.last_linear = nn.Identity()
         self.model.global_pool = nn.AdaptiveAvgPool2d(1)
-
-
-class CLIPModel(FrameLevelModel):
-    def __init__(self, num_classes, model_type='ViT-B/32', model_path=None):
-        super().__init__(num_classes)
-        del num_classes
-        if model_path is None:
-            model, _ = clip.load(model_type, jit=False)
-        else:
-            model = torch.jit.load(model_path)
-            model = clip.model.build_model(model.state_dict())
-        # Delete the params that won't be used so it works with DDP
-        del (model.transformer, model.token_embedding,
-             model.positional_embedding, model.ln_final, model.text_projection,
-             model.logit_scale)
-        model.float()
-        self.model = model
-        self.model.forward_old = self.model.forward  # If I need to debug
-        self.model.forward = self.model.encode_image
 
 
 class TIMMModel(FrameLevelModel):

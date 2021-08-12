@@ -1,7 +1,0 @@
-# @package _group_
-_target_: external.s3d_howto100m.s3dg.S3D
-dict_path: null  # Not using here, that is for sentence embedding
-num_classes: null  # Will be set in the code based on dataset
-gating: true  # Gating in the s3d
-gap: true  # Global avg pool
-output: "cls"

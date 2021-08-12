@@ -7,11 +7,14 @@ import socket
 import glob
 from omegaconf import OmegaConf
 import inquirer
+import pathlib
 
 from hydra.core.override_parser.overrides_parser import OverridesParser
 from hydra._internal.core_plugins.basic_sweeper import BasicSweeper
 
-BASE_RUN_DIR = '${cwd}/OUTPUTS'
+
+CODE_DIR = str(pathlib.Path(__file__).parent.resolve())
+BASE_RUN_DIR = f'{CODE_DIR}/OUTPUTS'
 
 
 def parse_args():
@@ -210,6 +213,12 @@ def get_free_port():
     raise ResourceWarning('No empty port found')
 
 
+def num_gpus():
+    output = subprocess.run('nvidia-smi --query-gpu=name --format=csv,noheader'
+                            '| wc -l', shell=True, capture_output=True)
+    return int(output.stdout.decode().strip())
+
+
 def construct_cmd(args):
     """Construct the cmd as provided in args."""
     if args.cfg:
@@ -266,7 +275,7 @@ def construct_cmd(args):
         cli += ' test_only=True '
     if args.local:
         cli += (' hydra.launcher.nodes=1 '
-                ' hydra.launcher.gpus_per_node=2 '
+                f' hydra.launcher.gpus_per_node={num_gpus()} '
                 ' hydra/launcher=submitit_local ')
     else:
         cli += (' hydra.launcher.max_num_timeout=3 ')

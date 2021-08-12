@@ -40,10 +40,6 @@ from external import forecasting_hoi_datasets
 from notebooks import utils as nb_utils
 from func.train_eval_ops import DenseRegressionLossAccuracy
 
-try:
-    from apex import amp
-except ImportError:
-    amp = None
 
 __all__ = ['main', 'evaluate', 'train_one_epoch', 'initial_setup']
 RESULTS_SAVE_DIR = 'results'  # Don't put a "/" at the end, will add later
@@ -159,7 +155,6 @@ def train_one_epoch(
         save_freq: float,  # num epochs to save at. Could be fractional.
         save_freq_min: float,  # Save a checkpoint every this many minutes
         save_intermediates: bool,
-        apex=False,
 ):
     """
     Args:
@@ -230,11 +225,7 @@ def train_one_epoch(
             raise ValueError('The loss is NaN!')
 
         optimizer.zero_grad()
-        if apex:
-            with amp.scale_loss(loss, optimizer) as scaled_loss:
-                scaled_loss.backward()
-        else:
-            loss.backward()
+        loss.backward()
 
         # Clip the gradients if asked for
         if grad_clip_params['max_norm'] is not None:
@@ -796,11 +787,6 @@ def main(cfg):
                 param.requires_grad = False
 
     optimizer = hydra.utils.instantiate(cfg.opt.optimizer, params_final)
-
-    if cfg.apex:
-        model, optimizer = amp.initialize(model,
-                                          optimizer,
-                                          opt_level=cfg.apex_opt_level)
 
     # convert scheduler to be per iteration,
     # not per epoch, for warmup that lasts

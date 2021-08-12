@@ -1,0 +1,36 @@
+{
+"dataset": {
+  "name": "egtea-o",
+  "root_folder": "/home/mliu/data/EGTEA/ant_clips",
+  "ant_file": {"train":"/home/mliu/data/EGTEA/split_json/egteao_train.json",
+               "val":"/home/mliu/data/EGTEA/split_json/egteao_test.json"},
+  "split": ["train", "val"],
+  "action_type": "action",
+  "num_classes": 106,
+  "sample_pattern": [32, 2, 0],
+  "drop_last_frames": 2},
+"input": {
+  "rotation": 5,
+  "crop_resize": false,
+  "batch_size": 16,
+  "color_jitter": 0.15,
+  "mean" : [0.45, 0.45, 0.45],
+  "std" : [0.225, 0.225, 0.225],
+  "mixup": false},
+"network": {
+  "devices": [0],
+  "backbone": "i3d-resnet50v1",
+  "pretrained": "./models/i3d_r50_kinetics_32x2.pth",
+  "frozen_stages": 1,
+  "feat_dim": 2048,
+  "decoder": "vaefcjoint",
+  "decoder_fc_std": 0.01,
+  "dropout_prob": 0.8},
+"optimizer": {
+  "type": "SGD",
+  "momentum": 0.9,
+  "epochs": 40,
+  "weight_decay": 1e-4,
+  "learning_rate": 0.00025,
+  "decoder_lr_ratio": 10.0}
+}

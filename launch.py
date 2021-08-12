@@ -1,22 +1,17 @@
+#!~/.conda/envs/avt/bin/python
 """Launch script to run arguments stored in txt files."""
 import argparse
-import getpass
 import subprocess
 import os
 import socket
 import glob
-from multiprocessing import Process
 from omegaconf import OmegaConf
 import inquirer
 
 from hydra.core.override_parser.overrides_parser import OverridesParser
 from hydra._internal.core_plugins.basic_sweeper import BasicSweeper
 
-BASE_RUN_DIR = ('/checkpoint/{}/Work/FB/2020/001_VideoSSL/VidCls/'
-                'Outputs/'.format(getpass.getuser()))
-PRIORITY_QNAME = 'prioritylab'
-# No spaces in the comment; somehow doesn't work with the spaces
-PRIORITY_COMMENT = 'comment'
+BASE_RUN_DIR = '${cwd}/OUTPUTS'
 
 
 def parse_args():
@@ -62,11 +57,6 @@ def parse_args():
                         '--profile',
                         action='store_true',
                         help='Run with kernprof. Decorate fn with @profile')
-    parser.add_argument('-r',
-                        '--priority',
-                        action='store_true',
-                        help='Run in priority queue')
-    parser.add_argument('--dev', action='store_true', help='Run in dev queue')
     parser.add_argument('--cls',
                         action='store_true',
                         help='Gen classification file and run that')
@@ -269,22 +259,11 @@ def construct_cmd(args):
     cli = (
         'export NCCL_SOCKET_IFNAME=; export GLOO_SOCKET_IFNAME=; '
         ' HYDRA_FULL_ERROR=1 '
-        ' PYTHONPATH=$PYTHONPATH:external/VMZ/pt/ '  # for VMZ models
         ' {} train_net.py hydra.run.dir={} ').format(
             'kernprof -l ' if args.profile else 'python ', agent_folder)
     cli += cli_stuff
     if args.test:
         cli += ' test_only=True '
-    if args.dev:
-        cli += ' +hydra.launcher.partition="devlab" '
-    elif args.priority:
-        cli += (' +hydra.launcher.partition="{}"'
-                ' +hydra.launcher.comment="{}" ').format(
-                    PRIORITY_QNAME, PRIORITY_COMMENT)
-    elif not args.local and not args.debug:
-        cli += ' +hydra.launcher.partition="learnlab" '
-    if args.big_gpu:
-        cli += (' +hydra.launcher.constraint="volta32gb" ')
     if args.local:
         cli += (' hydra.launcher.nodes=1 '
                 ' hydra.launcher.gpus_per_node=2 '

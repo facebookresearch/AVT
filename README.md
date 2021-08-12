@@ -32,6 +32,17 @@ $ conda env create -f env.yaml python=3.7.7
 $ conda activate avt
 ```
 
+If you plan to use the irCSN-152 backbone architecture, then also compile the
+depthwise 3D convolution kernel from [Forecasting HOI codebase](external/ForecastingHOI).
+You might need to edit the `setup.py` file to ensure your GPU architectures
+are in there.
+
+```bash
+$ cd external/ForecastingHOI/libs/models/depthwise_conv3d
+$ python setup.py build_ext --inplace
+$ cd -
+```
+
 ## Datasets
 
 The code expects the data in the `DATA/` folder. You can also symlink it to

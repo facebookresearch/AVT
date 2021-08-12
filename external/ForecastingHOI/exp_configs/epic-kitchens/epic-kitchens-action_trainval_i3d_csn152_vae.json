@@ -1,0 +1,38 @@
+{
+"dataset": {
+  "name": "epic-ant",
+  "root_folder": "/home/mliu/data/EPIC/ant_clips",
+  "ant_file": {"train":"/home/mliu/data/EPIC/json_files/epickitchens_train_joint.json",
+               "val":"/home/mliu/data/EPIC/json_files/epickitchens_val_joint.json"},
+  "split": ["train", "val"],
+  "action_type": "action",
+  "num_classes": 2513,
+  "sample_pattern": [32, 2, 0],
+  "drop_last_frames": 2},
+"input": {
+  "rotation": 5,
+  "crop_resize": false,
+  "batch_size": 16,
+  "color_jitter": 0.15,
+  "mean" : [0.45, 0.45, 0.45],
+  "std" : [0.225, 0.225, 0.225],
+  "mixup": false},
+"network": {
+  "devices": [0],
+  "backbone": "r3d-csn152",
+  "pretrained": "./models/irCSN_152_ig_32x2.pth",
+  "frozen_stages": 2,
+  "gradient_cp": true,
+  "feat_dim": 2048,
+  "decoder": "vaefcjoint",
+  "decoder_fc_std": 0.01,
+  "dropout_prob": 0.8,
+  "label_smoothing": -1},
+"optimizer": {
+  "type": "SGD",
+  "momentum": 0.9,
+  "epochs": 15,
+  "weight_decay": 1e-4,
+  "learning_rate": 0.00025,
+  "decoder_lr_ratio": 10.0}
+}

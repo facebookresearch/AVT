@@ -37,10 +37,11 @@ def parse_args():
                         '--test',
                         action='store_true',
                         help='Run testing mode (will pick the last ckpt)')
-    parser.add_argument('-b',
-                        '--big_gpu',
-                        action='store_true',
-                        help='Run on 32gb volta')
+    parser.add_argument('-p',
+                        '--partition',
+                        type=str,
+                        default=None,
+                        help='Specify SLURM partition to run on')
     parser.add_argument('--tb',
                         action='store_true',
                         help='Run tensorboard on this directory')
@@ -56,8 +57,7 @@ def parse_args():
                         '--kill',
                         action='store_true',
                         help='Kill jobs running this config.')
-    parser.add_argument('-p',
-                        '--profile',
+    parser.add_argument('--profile',
                         action='store_true',
                         help='Run with kernprof. Decorate fn with @profile')
     parser.add_argument('--cls',
@@ -279,6 +279,8 @@ def construct_cmd(args):
                 ' hydra/launcher=submitit_local ')
     else:
         cli += (' hydra.launcher.max_num_timeout=3 ')
+    if args.partition is not None and not args.local:
+        cli += f' +hydra.launcher.partition="{args.partition}" '
     if args.debug:
         cli += (' data_train.workers=0 data_eval.workers=0 ')
     cli += ' ' + ' '.join(args.rest)

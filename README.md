@@ -124,13 +124,25 @@ By default, the launcher will launch the job to a SLURM cluster. However,
 you can run it locally using one of the following options:
 
 1. `-g` to run locally in debug mode with 1 GPU and 0 workers. Will allow you to place
-`pdb.set_trace()` to debug interactively
-2. `-l` to run locally using as many GPUs on the local machine
+`pdb.set_trace()` to debug interactively.
+2. `-l` to run locally using as many GPUs on the local machine.
 
 This will run the training, which will run validation every few epochs. You can
 also only run testing using the `-t` flag.
 
+The outputs will be stored in `OUTPUTS/<path to config>`. This would include
+tensorboard files that you can use to visualize the training progress.
+
 ## Model Zoo
+
+
+### EPIC-Kitchens 100
+
+
+| Backbone | Head | Class-mean <br/> Recall@5 (Actions) | Config |
+|----------|------|-------------------------------|--------|
+| AVT-b | AVT-h | 14.9 | `expts/01_ek100_avt.txt` |
+
 
 ## Test/challenge submission
 

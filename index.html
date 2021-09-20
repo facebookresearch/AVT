@@ -1,0 +1,210 @@
+<!-- Thanks to url=http://www.cs.cmu.edu/~dfouhey/3DP/index.html -->
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CG7CNMNW4V"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CG7CNMNW4V');
+</script>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="StyleSheet" href="assets/style.css" type="text/css" media="all">
+
+<title>Anticipative Video Transformer</title>
+<script type="text/javascript" async="" src="assets/ga.js"></script><script type="text/javascript">
+</script>
+
+<!-- bibliographic tags -->
+<meta name="citation_title" content="Anticipative Video Transformer"/>
+<meta name="citation_author" content="Girdhar, Rohit"/>
+<meta name="citation_author" content="Grauman, Kristen"/>
+<meta name="citation_publication_date" content="2021"/>
+<meta name="citation_conference_title" content="ICCV"/>
+<meta name="citation_pdf_url" content="https://arxiv.org/abs/2106.02036"/>
+
+<style type="text/css">
+#primarycontent h1 {
+	font-variant: small-caps;
+}
+#primarycontent h3 {
+}
+#primarycontent teasertext {
+	text-align: center;
+}
+#primarycontent p {
+	text-align: center;
+}
+#primarycontent {
+	text-align: justify;
+}
+#primarycontent p {
+	text-align: justify;
+}
+#primarycontent p iframe {
+	text-align: center;
+}
+#avatar {
+  border-radius: 50%;
+}
+</style>
+<script type="text/javascript">
+  function togglevis(elid){
+    el=document.getElementById(elid);
+    aelid=elid+"a";
+    ael=document.getElementById(aelid);
+    if(el.style.display=='none'){
+      el.style.display='inline-table';
+      ael.innerHTML="[Hide BibTex]";
+    }else{
+      el.style.display='none';
+      ael.innerHTML="[Show BibTex]";
+    }
+  }
+</script>
+
+<link rel="icon" type="image/png" href="http://rohitgirdhar.github.io/favicon.png">
+
+</head>
+<body>
+<div id="primarycontent">
+<h1 align="center" itemprop="name"><strong>
+    Anticipative Video Transformer
+</strong></h1>
+
+
+   <table class="results" align="center">
+    <tr>
+      <td align="center">
+	      <img src="assets/teaser.png" width="70%" /></a>
+      </td>
+    </tr>
+    <tr></tr>
+    <tr></tr>
+    <tr></tr>
+    <tr>
+      <td class="credits" align="justify">
+        We propose Anticipative Video Transformer (AVT), an end-to-end attention-based video modeling architecture that attends to the previously observed video in order to anticipate future actions. We train the model jointly to predict the next action in a video sequence, while also learning frame feature encoders that are predictive of successive future frames' features. Compared to existing temporal aggregation strategies, AVT has the advantage of both maintaining the sequential progression of observed actions while still capturing long-range dependencies--both critical for the anticipation task. Through extensive experiments, we show that AVT obtains the best reported performance on four popular action anticipation benchmarks: EpicKitchens-55, EpicKitchens-100, EGTEA Gaze+, and 50-Salads, including outperforming all submissions to the EpicKitchens-100 CVPR'21 challenge.
+      </td>
+    </tr>
+    <tr>
+    </tr>
+ </table>
+
+
+
+<h3>People</h3>
+
+<table id="people" style="margin:auto;">
+  <tr>
+    <td></td>  <!-- For some reason it scales up the first td.. so adding a dummy td -->
+    <td>
+      <img src="assets/authors/rohit.jpg"/><br/>
+      <a href="http://www.cs.cmu.edu/~rgirdhar/" target="_blank">Rohit Girdhar</a>
+    </td>
+    <td>
+      <img src="assets/authors/kristen.jpg"/><br/>
+      <a href="https://www.cs.utexas.edu/users/grauman/" target="_blank">Kristen Grauman</a>
+    </td>
+  </tr>
+</table>
+
+
+<h3>Paper</h3>
+<table>
+  <tr></tr>
+  <tr><td>
+    <a href="http://arxiv.org/abs/2106.02036"><img style="box-shadow: 5px 5px 2px #888888; margin: 10px" src="assets/paper-screenshot.png" width="150px"/></a>
+  </td>
+  <td></td>
+  <td>
+    R. Girdhar and K. Grauman<br/>
+    <a href="http://arxiv.org/abs/2106.02036">Anticipative Video Transformer</a><br/>
+    IEEE/CVF International Conference on Computer Vision (ICCV), 2021<br/>
+    [<a href="http://arxiv.org/abs/2106.02036">arXiv</a>]
+    [<a href="https://github.com/facebookresearch/AVT">code/models</a>]
+    [<a href="papers/EPICWorkshop2021.pdf">workshop paper</a>]
+    [<a href="papers/Supplementary.pdf">supplementary</a>]
+    [<a href="javascript:togglevis('girdhar2021anticipative')" id="bibtex">BibTex</a>] <br/> <br/>
+    <table summary="Rank 1">
+      <tr>
+	<td><img src="assets/cup.png" alt="Cup" width="30px" style="padding-right: 10px;" /></td>
+  <td><b>Winner</b> of the CVPR'21 <a href="https://competitions.codalab.org/competitions/25925#results">EPIC-Kitchens-100 Action Anticipation challenge!</a></td>
+      </tr>
+    </table>
+
+</table>
+
+
+
+<table class="bibtex" style="display:none" id="girdhar2021anticipative"><tr><td>
+<pre>
+@inproceedings{girdhar2021anticipative,
+    title = {{Anticipative Video Transformer}},
+    author = {Girdhar, Rohit and Grauman, Kristen},
+    booktitle={ICCV},
+    year={2021}
+}
+
+@inproceedings{girdhar2021avtchallenge,
+    author = {Girdhar, Rohit and Grauman, Kristen},
+    title = {{Anticipative Video Transformer @ EPIC-Kitchens Action Anticipation Challenge 2021}},
+    booktitle = {CVPR Workshop},
+    howpublished = {\url{https://facebookresearch.github.io/AVT/papers/EPICWorkshop2021.pdf}},
+    year=2021,
+}
+
+</pre>
+</td></tr></table>
+
+
+<h3>Sample Results</h3>
+
+<p>
+For each video, we pause every 1 second and show the predicted future action using AVT (after attending to the past so far), and the ground truth (GT) future action (if labeled).
+We also overlay the frame with spatial attention from AVT-b.
+</p>
+
+<table style="margin:auto;">
+  <tr>
+    <td>
+      <video style="width: 25em; height: 25em; margin: 10px" autoplay muted loop controls>
+        <source src="assets/videos/6488.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </td>
+    <td>
+      <video style="width: 25em; height: 25em; margin: 10px" autoplay muted loop controls>
+        <source src="assets/videos/4855.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <video style="width: 25em; height: 25em; margin: 10px" autoplay muted loop controls>
+        <source src="assets/videos/248.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </td>
+    <td>
+      <video style="width: 25em; height: 25em; margin: 10px" autoplay muted loop controls>
+        <source src="assets/videos/9096.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </td>
+  </tr>
+</table>
+
+<h3>Acknowledgements</h3>
+<p>
+Authors would like to thank Antonino Furnari, Fadime Sener and Miao Liu for help with prior work; Naman Goyal and Myle Ott for help with language models; and Tushar Nagarajan, Gedas Bertasius and Laurens van der Maaten for feedback on the manuscript.
+</p>
+</div>
+
+</body></html>

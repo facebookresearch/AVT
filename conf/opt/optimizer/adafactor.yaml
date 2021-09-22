@@ -1,0 +1,4 @@
+# @package _group_
+
+_target_: transformers.Adafactor
+warmup_init: false

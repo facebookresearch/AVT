@@ -1,0 +1,9 @@
+# @package _group_
+
+_target_: func.train_eval_ops.PredFutureFeat
+reg_criterion: ${train_eval_op.pred_future_feat.reg_criterion}
+future_target: temp_agg_projected
+incur_loss_style: separately
+combine_future_losses:
+  _target_: torch.min
+cumulative_future: false

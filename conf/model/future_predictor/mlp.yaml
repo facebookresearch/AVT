@@ -1,0 +1,4 @@
+# @package _group_
+
+_target_: models.future_prediction.MLP
+num_layers: 2

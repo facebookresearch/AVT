@@ -1,0 +1,11 @@
+# @package _group_
+
+_target_: common.scheduler.WarmupMultiStepLR
+# Decrease lr on milestones
+milestone_epochs: [20, 30, 40]
+# Decrease LR by this factor
+gamma: 0.1
+warmup_factor: 0.00001
+warmup_epochs: 10
+warmup_method: "linear"
+last_epoch: -1

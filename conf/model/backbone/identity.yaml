@@ -1,0 +1,4 @@
+# @package _group_
+# This backbone will just pass the input as output, useful when the
+# input is not video but pretrained features
+_target_: torch.nn.Identity

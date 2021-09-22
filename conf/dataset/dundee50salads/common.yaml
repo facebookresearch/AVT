@@ -1,0 +1,10 @@
+# @package _group_._name_
+
+data_dir: ${cwd}/DATA/videos/50Salads/
+splits_dir: ${cwd}/external/breakfast_50salad_anticipation_annotations/cvpr18_data/50s_splits/
+annots_dir: ${dataset.dundee50salads.common.data_dir}/activityAnnotations/
+videos_dir: ${dataset.dundee50salads.common.data_dir}/rgb/
+timestamps_dir: ${dataset.dundee50salads.common.data_dir}/timestamps/
+classes_fpath: ${cwd}/external/breakfast_50salad_anticipation_annotations/annotations/50salads/mapping.txt
+annots_dir_abu_farha: ${cwd}/external/breakfast_50salad_anticipation_annotations/annotations/50salads/groundTruth/
+fold: 1

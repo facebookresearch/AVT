@@ -1,0 +1,6 @@
+# @package _group_
+
+_target_: loss_fn.simclr_infonce.DistributedSimclrInfoNCELoss
+temperature: 0.1
+target_to_output_loss: true
+mil_type: sum

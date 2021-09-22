@@ -1,0 +1,5 @@
+# @package _group_
+_target_: vmz.models.r2plus1d_34
+pretraining: ""
+use_pool1: false
+num_classes: null  # Will be set in the code based on dataset

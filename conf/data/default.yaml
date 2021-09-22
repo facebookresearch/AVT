@@ -1,0 +1,48 @@
+# @package _group_
+
+# The top few go into the dataset object to load as per these
+num_frames: 16
+frame_rate: null  # Null => Defaults or natural frame rate of the video
+# Allow for an option to clip the long original clip into subclips. This is
+# useful I want features for multiple past clips, so I just read and process a
+# really long one and then crop it up. By default crop into 1 subclip -- same
+# as input
+subclips:
+  # TODO Need to use relative interpolation here
+  num_frames: ${..num_frames}
+  stride: ${..num_frames}
+# Load segmentation labels only if a classifier on the past is being applied
+load_seg_labels: ${model.classifier_on_past}
+# Get rid of the next 2 params.. not sure what they are for
+train_bs_multiplier: 5
+val_clips_per_video: 1
+workers: 10
+# Scale image to this size before cropping
+# scale_w can be -1, in which case it will scale the shorter size to
+# scale_h.
+scale_h: 128
+scale_w: 174
+# Ht and wd of the crop from the above resized video. Set to null for no
+# cropping.
+crop_size: 112
+# Mean/std for centering the image
+mean: [0.43216, 0.394666, 0.37645]
+std: [0.22803, 0.22145, 0.216989]
+# Augmentations. Note, set these all to default, or "0", such that they are
+# not applied. Change it in the txt file to add it at training time, since
+# this ConfigGroup object will be copied for both train and test time.
+flip_p: 0.5  # Left-right flip 50% at train time. Not used during eval.
+scale_pix_val: 1.0  # Scale the pixel values by this number. Useful to scale from 0-1 values to 0-255.
+reverse_channels: false  # Reverse channels, i.e. convert from RGB->BGR
+color_jitter_brightness: 0.0
+color_jitter_contrast: 0.0
+color_jitter_saturation: 0.0
+color_jitter_hue: 0.0
+# Use distributed sampler or not. For certain data loader settings, such
+# as when using the dense_sampler for feature extraction, that automatically
+# samples different clips for different workers, so set this to false when
+# using it
+use_dist_sampler: true
+# Test time augmentations. Only used in the eval code
+eval_num_crops: 1
+eval_flip_crops: False

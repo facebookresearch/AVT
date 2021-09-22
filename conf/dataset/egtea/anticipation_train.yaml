@@ -1,0 +1,20 @@
+# @package _group_._name_
+
+_target_: datasets.epic_kitchens.EPICKitchens
+version: ${dataset.egtea.common.version}
+root:
+  - ${cwd}/DATA/videos/EGTEA/101020/videos/
+annotation_path:
+  - ${dataset.egtea.common.rulstm_annot_dir}/training${dataset.egtea.common.split}.csv
+annotation_dir: ${dataset.egtea.common.rulstm_annot_dir}
+label_type: ${dataset.egtea.common.label_type}
+sample_strategy: random_clip
+action_labels_fpath: ${dataset.egtea.common.rulstm_annot_dir}/actions.csv
+conv_to_anticipate_fn:
+  _target_: datasets.base_video_dataset.convert_to_anticipation
+  tau_a: ${dataset.egtea.common.tau_a}
+  tau_o: ${dataset.egtea.common.tau_o}
+reader_fn:  # Setting it since for EGTEA I mostly use RULSTM features
+  _target_: datasets.epic_kitchens.EpicRULSTMFeatsReader
+  lmdb_path: ${dataset.egtea.common.rulstm_feats_dir}/TSN-C_3_egtea_action_CE_s${dataset.egtea.common.split}_${dataset.egtea.common.modality}_model_best_fcfull_hd/
+  read_type: normal

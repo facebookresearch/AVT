@@ -1,0 +1,24 @@
+# @package _group_._name_
+
+_target_: datasets.epic_kitchens.EPICKitchens
+root: ${dataset.epic_kitchens.common.data_dir}/train
+# Not using the rulstm/RULSTM/data/{training|validation}.csv here since
+# they are effectively the same as the original EPIC labels (to my
+# knowledge).
+# wc -l rulstm/RULSTM/data/training.csv --> 23493
+# wc -l rulstm/RULSTM/data/validation.csv --> 4979
+# wc -l epic_annotations/EPIC_train_action_labels.csv --> 28473
+# which is the same as (sum - 1, for header)
+# So using the only_keep_videos to subselect for train/val
+annotation_path:
+  - ${dataset.epic_kitchens.common.annot_dir}/EPIC_train_action_labels.pkl
+annotation_dir: ${dataset.epic_kitchens.common.annot_dir}
+label_type: ${dataset.epic_kitchens.common.label_type}
+sample_strategy: "random_clip"
+# https://github.com/fpv-iplab/rulstm/blob/master/RULSTM/data/training_videos.csv
+only_keep_videos: ${dataset.epic_kitchens.common.rulstm_annot_dir}/training_videos.csv
+action_labels_fpath: ${dataset.epic_kitchens.common.rulstm_annot_dir}/actions.csv
+conv_to_anticipate_fn:
+  _target_: datasets.base_video_dataset.convert_to_anticipation
+  tau_a: ${dataset.epic_kitchens.common.tau_a}
+  tau_o: ${dataset.epic_kitchens.common.tau_o}

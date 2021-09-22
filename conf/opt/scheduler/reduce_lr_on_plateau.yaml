@@ -1,0 +1,9 @@
+# @package _group_
+
+_target_: common.scheduler.ReduceLROnPlateau
+mode: "max"  # Since I pass in the validation accuracy (top 1)
+patience: 10
+threshold: 1  # If the val acc stuck within 1%
+threshold_mode: "abs"
+cooldown: 3
+min_lr: 0.0000001

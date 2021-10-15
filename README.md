@@ -2,7 +2,7 @@
 
 <p><img src="https://rohitgirdhar.github.io/DetectAndTrack/assets/cup.png" width="30px" align="center" /> Ranked <b>first</b> in the Action Anticipation task of the <a href="https://epic-kitchens.github.io/2021#results">CVPR 2021 EPIC-Kitchens Challenge</a>! (entry: AVT-FB-UT)</p>
 
-<img src="https://facebookresearch.github.io/AVT/assets/avt.gif" width="50%" />
+<img src="https://facebookresearch.github.io/AVT/assets/long.gif" width="50%" />
 
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/anticipative-video-transformer/action-anticipation-on-epic-kitchens-100)](https://paperswithcode.com/sota/action-anticipation-on-epic-kitchens-100?p=anticipative-video-transformer) <br/>
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/anticipative-video-transformer/action-anticipation-on-epic-kitchens-100-test)](https://paperswithcode.com/sota/action-anticipation-on-epic-kitchens-100-test?p=anticipative-video-transformer) <br/>

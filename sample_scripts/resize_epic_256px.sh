@@ -1,6 +1,6 @@
 # Copyright (c) Facebook, Inc. and its affiliates.
 
-#/bin/bash
+#!/bin/bash
 indir="/path/to/orig/videos/"
 outdir="/path/to/resulting/videos_ht256px/"
 

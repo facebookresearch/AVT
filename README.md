@@ -172,7 +172,12 @@ you can run it locally using one of the following options:
 2. `-l` to run locally using as many GPUs on the local machine.
 
 This will run the training, which will run validation every few epochs. You can
-also only run testing using the `-t` flag.
+also only run testing using the `-t` flag. When running testing for a pre-trained model,
+don't forget to set the checkpoint to load weights from, using something like this in the 
+txt experiment config:
+```
+train.init_from_model=[[path/to/checkpoint.pth]]
+```
 
 The outputs will be stored in `OUTPUTS/<path to config>`. This would include
 tensorboard files that you can use to visualize the training progress.
